@@ -46,6 +46,7 @@ def train_configuration_1():
         #Needs to have alternating starting player layout (50/50 split configuration)
         #Even episodes: Q-agent goes first ('X'), odd episodes: Opponent Agent goes first ('O')
         q_agent_sign = 'X' if episode % 2 == 0 else 'O'
+        
         env.q_agent_sign = q_agent_sign
         env.opponent_sign = 'O' if q_agent_sign == 'X' else 'X'
 

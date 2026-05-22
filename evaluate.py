@@ -193,15 +193,12 @@ if __name__ == "__main__":
     try:
         # Load the improved table to pull valid, learned metrics for the report
         eval_agent.load_q_table("q_table_improved.pkl")
+        visited_keys = list(eval_agent.q_table.keys())
+
+        
 
         # Define a sample early-game matrix for evaluation
-        sample_state = (
-            -1,  0,  0,  0,  0,
-             0,  0,  0,  0,  0,
-             0,  0,  1,  0,  0,
-             0,  0,  0,  0,  0,
-             0,  0,  0,  0,  0
-        )
+        sample_state = visited_keys[0]
 
         print("Extracting learned actions for the sample state...")
 

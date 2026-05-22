@@ -3,7 +3,7 @@
 evaluate.py - Full Refactored Execution Engine
 Tracks Summary Metrics: AvgEvaluationReturn and AvgGameLengthMoves
 """
-#Indentation standardized to 4 spaces
+#Indentation standardized to 4 spaces 
 
 import os
 import csv
@@ -45,8 +45,8 @@ def run_evaluation_suite(q_table_path, opponent_agent, opponent_name, num_games=
 
         q_agent_sign = 'X' if i < (num_games // 2) else 'O'
         state = env.reset(opponent_agent=opponent_agent, q_agent_sign=q_agent_sign)
-
-        #Agent always sees its pieces as 1.
+        
+        #Agent always sees its pieces as 1. 
         normalized_state = tuple(-x for x in state) if q_agent_sign == 'O' else state
 
         done = False
@@ -65,7 +65,7 @@ def run_evaluation_suite(q_table_path, opponent_agent, opponent_name, num_games=
 
             #Normalize the next incoming state before looping
             normalized_next_state = tuple(-x for x in next_state) if q_agent_sign == 'O' else next_state
-
+            
             state = next_state
             normalized_state = normalized_next_state
             episode_reward += reward
@@ -193,25 +193,34 @@ if __name__ == "__main__":
     try:
         # Load the improved table to pull valid, learned metrics for the report
         eval_agent.load_q_table("q_table_improved.pkl")
+
+        # pull real states the agent actually visited
         visited_keys = list(eval_agent.q_table.keys())
 
-        
+        if len(visited_keys) > 100:
+            sample_state = visited_keys[100]
 
-        # Define a sample early-game matrix for evaluation
-        sample_state = visited_keys[0]
+        elif not visited_keys:
+            print("Loaded Q-table is empty! Train your models first.")
 
-        print("Extracting learned actions for the sample state...")
+        else:
+            sample_state = visited_keys[0]
+            print(f"Extracting learned actions for real visited state: {sample_state}")
 
-        for r in range(5):
-            row_output = []
-            for c in range(5):
-                idx = r * 5 + c
-                if sample_state[idx] == 0:
-                    q_value = eval_agent.get_q(sample_state, (r, c))
-                    row_output.append(f"({r},{c}): {q_value:.3f}")
-                else:
-                    row_output.append(f"({r},{c}): Taken ")
-            print(" | ".join(row_output))
+            for r in range(5):
+                row_output = []
+                for c in range(5):
+                    idx = r * 5 + c
+                    if sample_state[idx] == 0:
+                        q_value = eval_agent.get_q(sample_state, (r,c))
+                        row_output.append(f"({r},{c}): {q_value:.3f}")
+                    else:
+                      row_output.append(f"({r},{c}): Taken ") 
 
+                print(" | ".join(row_output))
+
+
+
+  
     except FileNotFoundError:
         print("Run your training pipeline first to extract visualization values.")

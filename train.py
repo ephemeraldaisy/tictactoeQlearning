@@ -133,6 +133,7 @@ def train_configuration_2():
             opponent = RandomAgent()
         else:
             opponent = NoisyHeuristicAgent()
+            opponent.epsilon = 0.2
 
         #Needs to have alternating starting player layout (50/50 split configuration)
         #Even episodes: Q-agent goes first ('X'), odd episodes: Opponent Agent goes first ('O')
